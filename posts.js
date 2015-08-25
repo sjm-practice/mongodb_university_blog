@@ -29,9 +29,18 @@ function PostsDAO(db) {
                 "date": new Date()}
 
         // now insert the post
-        // hw3.2 TODO
-        callback(Error("insertEntry Not Yet Implemented!"), null);
-    }
+        // DONE: hw3.2
+        posts.insert(post, function (err, result) {
+          "use strict";
+
+          if (!err) {
+            console.log('inserted blog:', result[0].title);
+            return callback(null, result[0].permalink);
+          }
+
+          return callback(err, null);
+        });
+    };
 
     this.getPosts = function(num, callback) {
         "use strict";
