@@ -90,9 +90,25 @@ function PostsDAO(db) {
             comment['email'] = email
         }
 
-        // hw3.3 TODO
-        callback(Error("addComment Not Yet Implemented!"), null);
-    }
+        // DONE: hw3.3
+        this.getPostByPermalink(permalink, function (err, post) {
+            if (err) {
+                console.log(permalink, 'post not found for comment by', name);
+                return callback(err, null);
+            }
+
+            // add comment to post
+            posts.update({permalink: post.permalink}, {$push: {comments: comment}}, function (err, result) {
+                "use strict";
+
+                if (!err) {
+                    return callback(null, result);
+                }
+
+                return callback(err, null);
+            });
+        });
+    };
 }
 
 module.exports.PostsDAO = PostsDAO;
